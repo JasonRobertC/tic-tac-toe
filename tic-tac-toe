@@ -1,0 +1,103 @@
+# Tic Tac Toe game
+# by Jason R. Carroll
+# March 28, 2020
+
+def cls():
+    print('\n' * 49)
+
+cls()
+print('\nTic-Tac-Toe\nby J. Carroll')
+print('\nEnter the number of the space on the grid')
+print('where you wish to make your mark.')
+print('\nX goes first.')
+
+def gameLoop():
+    
+    win = 0
+    player = 'O'
+
+    grid  = {'7':'7','8':'8','9':'9',
+             '4':'4','5':'5','6':'6',
+             '1':'1','2':'2','3':'3'}
+
+    def field():
+        print('         |     |     \n'
+              '      '+grid['7']+'  |  '+grid['8']+'  |  '+grid['9']+'  \n'
+              '         |     |     \n'
+              '    –––––|–––––|–––––\n'
+              '         |     |     \n'
+              '      '+grid['4']+'  |  '+grid['5']+'  |  '+grid['6']+'  \n'
+              '         |     |     \n'
+              '    –––––|–––––|–––––\n'
+              '         |     |     \n'
+              '      '+grid['1']+'  |  '+grid['2']+'  |  '+grid['3']+'  \n'
+              '         |     |     \n'
+             )
+
+    print()
+    field()
+
+    while win == 0:
+        
+        if player=='X':
+            player='O'
+        elif player=='O':
+            player='X'
+
+        try:
+            move = input(f'Player {player}, make your move (enter 1-9): ')
+            cls()
+            if grid[move]=='X' or grid[move]=='O':
+                cls()
+                print('\nThat space is already occupied...try again.')
+                if player=='X':
+                    player='O'
+                elif player=='O':
+                    player='X'
+            else:
+                grid[move]=player
+        except KeyError:
+            cls()
+            print('\nIncorrect input...please enter a position 1-9.')
+            if player=='X':
+                player='O'
+            elif player=='O':
+                player='X'
+
+        print()
+        field()
+
+        if (grid['7']==grid['8']==grid['9'] or
+            grid['4']==grid['5']==grid['6'] or
+            grid['1']==grid['2']==grid['3'] or
+            grid['7']==grid['4']==grid['1'] or
+            grid['8']==grid['5']==grid['2'] or
+            grid['9']==grid['6']==grid['3'] or
+            grid['7']==grid['5']==grid['3'] or
+            grid['9']==grid['5']==grid['1']):
+
+            win = 1
+
+        cat = 0 
+
+        for value in grid.values():
+            if value=='X' or value=='O':
+                cat = cat + 1
+
+        if cat == 9:
+            player = 'the Cat'
+            break
+
+    print(f'Game over...{player} wins.')
+
+    again = ''
+    
+    while again.lower() != 'y' and again.lower() != 'n':
+        again = input('\nPlay again (Y/N)? ')
+    if again.lower() == 'y':
+        cls()
+        gameLoop()
+
+gameLoop()
+
+input('\nHave a nice day!\n\n[Press Enter to quit...]')
